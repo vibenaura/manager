@@ -2,7 +2,7 @@
 
 client_id = "01d0e003beff6f54e1ee1c65b1f09730"
 name = "VIBEN'AURA Manager"
-handle = "vibenaura-manager
+handle = "vibenaura-manager"
 application_url = "https://example.com"
 embedded = true
 

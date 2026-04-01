@@ -3,7 +3,7 @@
 client_id = "01d0e003beff6f54e1ee1c65b1f09730"
 name = "VIBEN'AURA Manager"
 handle = "vibenaura-manager"
-application_url = "https://example.com"
+application_url = "https://vibenaura-manager.vercel.app"
 embedded = true
 
 [build]
@@ -17,4 +17,4 @@ api_version = "2026-04"
 scopes = "write_products,write_files,write_themes"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [ "https://vibenaura-manager.vercel.app/api/auth" ]

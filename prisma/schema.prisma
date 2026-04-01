@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Session {
+  id                  String    @id
+  shop                String
+  state               String
+  isOnline            Boolean   @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean   @default(false)
+  locale              String?
+  collaborator        Boolean?  @default(false)
+  emailVerified       Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+model TShirtTemplate {
+  id           String   @id @default(uuid())
+  name         String
+  frontImage   String   // The "Base" default front image
+  backImage    String   // The "Base" default back image
+  sideImage    String?  // The "Base" default side image
+  length       Float
+  sleeveLength Float
+  widthLength  Float
+  sizes        String   // Comma-separated sizes, e.g., "S,M,L,XL,2XL,3XL"
+  tags         String?  // Comma-separated tags
+  
+  // Color data with optional overrides
+  colorVariants TShirtTemplateColorVariant[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model TShirtTemplateColorVariant {
+  id         String   @id @default(uuid())
+  templateId String
+  template   TShirtTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  
+  colorName  String   // Name or search term (e.g., "Deep Maroon")
+  colorHex   String?  // Optional visual representation
+  
+  // Optional image overrides for this specific color. 
+  // If null, the UI/customizer should fallback to the base images.
+  frontImage String?
+  backImage  String?
+  sideImage  String?
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+
+model DesignCategory {
+  id        String        @id @default(uuid())
+  name      String        @unique
+  designs   PrintDesign[]
+  createdAt DateTime      @default(now())
+}
+
+model PrintDesign {
+  id         String          @id @default(uuid())
+  name       String
+  imageUrl   String
+  categoryId String?
+  category   DesignCategory? @relation(fields: [categoryId], references: [id])
+  tags       String?         @default("")
+  status     String          @default("ENABLED") // ENABLED, DISABLED
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+}
+
+model UploadedFile {
+  id        String   @id @default(uuid())
+  md5       String   @unique
+  url       String
+  createdAt DateTime @default(now())
+}
